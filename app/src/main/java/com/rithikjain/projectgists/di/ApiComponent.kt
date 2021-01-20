@@ -5,7 +5,7 @@ import com.rithikjain.projectgists.api.WebService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ApplicationComponent
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -16,7 +16,7 @@ import javax.inject.Singleton
 private const val BASE_URL = "https://api.github.com/"
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object ApiComponent {
   @Provides
   @Singleton
@@ -28,14 +28,14 @@ object ApiComponent {
 }
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object WebServiceModule {
   @Provides
   fun providesWebService(retrofit: Retrofit): WebService = retrofit.create(WebService::class.java)
 }
 
 @Module
-@InstallIn(ApplicationComponent::class)
+@InstallIn(SingletonComponent::class)
 object OkHttpModule {
   @Provides
   fun providesOkHttpClient(): OkHttpClient {

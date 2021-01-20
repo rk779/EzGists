@@ -5,19 +5,16 @@ import android.graphics.drawable.Drawable
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.preferredSizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.ImageAsset
-import androidx.compose.ui.graphics.asImageAsset
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.platform.ContextAmbient
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.AmbientContext
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
@@ -25,11 +22,11 @@ import com.bumptech.glide.request.transition.Transition
 @Composable
 fun NetworkImage(
   url: String,
-  modifier: Modifier = Modifier.preferredSizeIn(maxHeight = 64.dp).padding(8.dp)
+  modifier: Modifier = Modifier
 ) {
-  var image by remember { mutableStateOf<ImageAsset?>(null) }
+  var image by remember { mutableStateOf<ImageBitmap?>(null) }
   var drawable by remember { mutableStateOf<Drawable?>(null) }
-  val context = ContextAmbient.current
+  val context = AmbientContext.current
 
   onCommit(url) {
     val glide = Glide.with(context)
@@ -40,7 +37,7 @@ fun NetworkImage(
       }
 
       override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
-        image = bitmap.asImageAsset()
+        image = bitmap.asImageBitmap()
       }
     }
 
@@ -58,9 +55,9 @@ fun NetworkImage(
   if (theImage != null) {
     Box(
       modifier.clip(RoundedCornerShape(50)),
-      alignment = Alignment.Center,
+      contentAlignment = Alignment.Center,
     ) {
-      Image(asset = theImage)
+      Image(bitmap = theImage)
     }
 
   } else if (theDrawable != null) {
