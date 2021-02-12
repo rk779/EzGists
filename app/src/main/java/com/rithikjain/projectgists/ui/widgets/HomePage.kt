@@ -1,5 +1,7 @@
 package com.rithikjain.projectgists.ui.widgets
 
+import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -19,12 +21,14 @@ import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseAuth
 import com.rithikjain.projectgists.models.Error
 import com.rithikjain.projectgists.models.GistResponse
@@ -35,6 +39,7 @@ import com.rithikjain.projectgists.ui.activities.LocalViewModel
 import com.rithikjain.projectgists.ui.themes.EzGistsTheme
 import com.rithikjain.projectgists.ui.themes.vividPink
 import com.rithikjain.projectgists.utils.Constants
+import dev.chrisbanes.accompanist.coil.CoilImage
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 
@@ -64,9 +69,18 @@ fun HomePage() {
           ) {
             Text(text = "My Gists", color = vividPink)
             if (user != null) {
-              NetworkImage(
-                url = user.photoUrl.toString(),
-                modifier = Modifier.preferredSizeIn(maxHeight = 64.dp).padding(8.dp)
+              CoilImage(
+                data = user.photoUrl.toString(),
+                fadeIn = true,
+                requestBuilder = { transformations(CircleCropTransformation()) },
+                loading = {
+                    CircularProgressIndicator(Modifier.align(Alignment.Center))
+                },
+                error = {
+                  Image(imageVector = Icons.Outlined.AccountCircle, contentDescription = null)
+                },
+                modifier = Modifier.preferredSizeIn(maxHeight = 64.dp).padding(8.dp),
+                contentDescription = null
               )
             }
           }
