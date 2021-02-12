@@ -5,7 +5,11 @@ import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentWidth
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,8 +19,8 @@ import androidx.datastore.preferences.core.edit
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.OAuthCredential
 import com.google.firebase.auth.OAuthProvider
-import com.rithikjain.projectgists.ui.activities.AmbientDataStore
-import com.rithikjain.projectgists.ui.activities.AmbientMainActivity
+import com.rithikjain.projectgists.ui.activities.LocalDataStore
+import com.rithikjain.projectgists.ui.activities.LocalMainActivity
 import com.rithikjain.projectgists.ui.themes.vividPink
 import com.rithikjain.projectgists.utils.Constants
 import kotlinx.coroutines.runBlocking
@@ -26,8 +30,8 @@ private lateinit var auth: FirebaseAuth
 @Composable
 fun LoginPage(onLoggedIn: () -> Unit) {
   auth = FirebaseAuth.getInstance()
-  val activity = AmbientMainActivity.current
-  val dataStore = AmbientDataStore.current
+  val activity = LocalMainActivity.current
+  val dataStore = LocalDataStore.current
 
   Scaffold(
     topBar = {

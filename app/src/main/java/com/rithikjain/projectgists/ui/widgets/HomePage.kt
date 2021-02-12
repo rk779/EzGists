@@ -1,8 +1,22 @@
 package com.rithikjain.projectgists.ui.widgets
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.preferredSizeIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
@@ -16,19 +30,18 @@ import com.rithikjain.projectgists.models.Error
 import com.rithikjain.projectgists.models.GistResponse
 import com.rithikjain.projectgists.models.Loading
 import com.rithikjain.projectgists.models.Success
-import com.rithikjain.projectgists.ui.activities.AmbientDataStore
-import com.rithikjain.projectgists.ui.activities.AmbientViewModel
+import com.rithikjain.projectgists.ui.activities.LocalDataStore
+import com.rithikjain.projectgists.ui.activities.LocalViewModel
 import com.rithikjain.projectgists.ui.themes.EzGistsTheme
 import com.rithikjain.projectgists.ui.themes.vividPink
 import com.rithikjain.projectgists.utils.Constants
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.map
 
-
 @Composable
 fun HomePage() {
-  val vm = AmbientViewModel.current
-  val datastore = AmbientDataStore.current
+  val vm = LocalViewModel.current
+  val datastore = LocalDataStore.current
   val user = FirebaseAuth.getInstance().currentUser
 
   LaunchedEffect(null) {
@@ -95,7 +108,7 @@ fun HomePage() {
     },
     floatingActionButton = {
       FloatingActionButton(onClick = {}, backgroundColor = MaterialTheme.colors.primary) {
-        Icon(imageVector = Icons.Filled.Add)
+        Icon(imageVector = Icons.Filled.Add, contentDescription = null)
       }
     }
   )

@@ -5,6 +5,7 @@ import com.rithikjain.projectgists.api.WebService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,7 +29,7 @@ object ApiComponent {
 }
 
 @Module
-@InstallIn(SingletonComponent::class)
+@InstallIn(ViewModelComponent::class)
 object WebServiceModule {
   @Provides
   fun providesWebService(retrofit: Retrofit): WebService = retrofit.create(WebService::class.java)

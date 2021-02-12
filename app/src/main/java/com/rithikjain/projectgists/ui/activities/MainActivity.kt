@@ -2,11 +2,13 @@ package com.rithikjain.projectgists.ui.activities
 
 import android.app.Activity
 import android.os.Bundle
+import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.*
-import androidx.compose.ui.platform.AmbientContext
-import androidx.compose.ui.platform.setContent
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Providers
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -22,9 +24,9 @@ import com.rithikjain.projectgists.ui.widgets.HomePage
 import com.rithikjain.projectgists.ui.widgets.LoginPage
 import dagger.hilt.android.AndroidEntryPoint
 
-val AmbientMainActivity = ambientOf<Activity> { error("Needs to be provided") }
-val AmbientDataStore = ambientOf<DataStore<Preferences>> { error("Needs to be provided") }
-val AmbientViewModel = ambientOf<MainViewModel> { error("Needs to be provided") }
+val LocalMainActivity = compositionLocalOf<Activity> { error("Needs to be provided") }
+val LocalDataStore = compositionLocalOf<DataStore<Preferences>> { error("Needs to be provided") }
+val LocalViewModel = compositionLocalOf<MainViewModel> { error("Needs to be provided") }
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -35,9 +37,9 @@ class MainActivity : AppCompatActivity() {
 
     setContent {
       Providers(
-        AmbientMainActivity provides this,
-        AmbientDataStore provides AmbientContext.current.createDataStore(name = "prefs"),
-        AmbientViewModel provides viewModel
+        LocalMainActivity provides this,
+        LocalDataStore provides LocalContext.current.createDataStore(name = "prefs"),
+        LocalViewModel provides viewModel
       ) {
         EzGistsTheme {
           EzGistsApp()
